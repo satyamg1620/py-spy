@@ -168,6 +168,7 @@ jobs:
             #Building py-spy
             echo "BUILDING PY-SPY"
             python3.9 -m pip install build
+            cd py-spy/
             python3.9 -m build
             echo pwd
             WHEEL_PATH=$(find dist/ -name "py_spy-0.3.14-py3-none-linux_s390x*.whl")
