@@ -117,6 +117,41 @@ jobs:
         name: wheels
         path: dist
 
+  build-linux-s390x:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - uses: actions/checkout@v2  
+      - uses: uraimo/run-on-arch-action@v2
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        name: Install dependencies and build py-spy
+        id: build-s390x-py-spy
+        with:
+          arch: s390x
+
+          # Create an artifacts directory
+          setup: |
+            mkdir -p "${PWD}/artifacts"
+          
+          # Mount the artifacts directory as /artifacts in the container
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+
+          run: |            
+            apt-get update -y
+            apt-get install -y build-essential libssl-dev zlib1g-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libgdbm-dev libdb5.3-dev libbz2-dev libexpat1-dev liblzma-dev tk-dev libffi-dev wget curl git
+            apt-get install python3.9 python3-pip python3-dev libpython3.9-dev -y
+
+            #Building py-spy
+            python3.9 -m build
+            echo pwd
+            WHEEL_PATH=$(find dist/ -name "py_spy-0.3.14-py3-none-linux_s390x*.whl")
+            WHEEL_NAME=$(basename $(find dist/ -name "py_spy-0.3.14-py3-none-linux_s390x*.whl"))
+            echo $WHEEL_PATH
+            echo $WHEEL_NAME
+            cp $WHEEL_PATH /artifacts/$WHEEL_NAME
+            ls /artifacts/ 
+
   build-freebsd:
     runs-on: ubuntu-22.04
     needs: [lint]
