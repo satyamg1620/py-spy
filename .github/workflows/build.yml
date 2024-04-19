@@ -164,6 +164,10 @@ jobs:
             apt-get install cargo -y
             echo rustc --version
             pwd
+            ls
+            cd
+            pwd
+            ls
             
             #Building py-spy
             echo "BUILDING PY-SPY"
