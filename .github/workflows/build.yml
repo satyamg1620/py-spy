@@ -129,6 +129,8 @@ jobs:
         with:
           arch: s390x
           distro: ubuntu_latest
+        env:
+          CARGO_TERM_COLOR: always
 
           # Create an artifacts directory
           setup: |
