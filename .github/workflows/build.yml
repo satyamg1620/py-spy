@@ -121,7 +121,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint]
     steps:
-      - uses: actions/checkout@v2  
+      - uses: actions/checkout@v3  
       - uses: uraimo/run-on-arch-action@v2
         name: Install dependencies and build py-spy
         id: build-s390x-py-spy
@@ -137,7 +137,8 @@ jobs:
           dockerRunArgs: |
             --volume "${PWD}/artifacts:/artifacts"
 
-          run: |            
+          run: |
+            echo "${PWD}"
             apt-get update -y
             apt-get install -y build-essential libssl-dev zlib1g-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libgdbm-dev libdb5.3-dev libbz2-dev libexpat1-dev liblzma-dev tk-dev libffi-dev wget curl git -f
             apt-get update -y
@@ -151,16 +152,21 @@ jobs:
             ./configure --enable-optimizations
             make -j $(nproc) && make altinstall
             cd /
+            echo "${PWD}"
 
             # Installing pip
+            echo "INSTALLING PIP"
             curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
             python3.9 get-pip.py
+            echo "${PWD}"
             
             apt-get update -y
             apt-get install cargo -y
             echo rustc --version
+            echo "${PWD}"
             
             #Building py-spy
+            echo "BUILDING PY-SPY"
             python3.9 -m pip install build
             python3.9 -m build
             echo pwd
