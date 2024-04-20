@@ -253,7 +253,7 @@ pub mod pyruntime {
     }
     
     #[cfg(all(target_os = "linux", target_arch = "s390x"))]
-    pub fn get_tstate_current_offset(_version: &Version) -> Option<usize> {
+    pub fn get_tstate_current_offset(version: &Version) -> Option<usize> {
         None
     }
 
