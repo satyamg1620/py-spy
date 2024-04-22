@@ -118,7 +118,7 @@ jobs:
         path: dist
 
   build-linux-s390x:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: [lint]
     steps:
       - uses: actions/checkout@v3  
@@ -127,7 +127,7 @@ jobs:
         id: build-s390x-py-spy
         with:
           arch: s390x
-          distro: ubuntu20.04
+          distro: ubuntu22.04
 
           # Create an artifacts directory
           setup: |
@@ -140,44 +140,15 @@ jobs:
           run: |
             pwd
             apt-get update -y
-            # apt-get install -y build-essential libssl-dev zlib1g-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libgdbm-dev libdb5.3-dev libbz2-dev libexpat1-dev liblzma-dev tk-dev libffi-dev wget curl git -f
             apt-get install -y build-essential 
             apt-get install python3.9 python3-pip python3-dev libpython3.9-dev -y
             python3.9 -m pip install --upgrade pip
-            
-            # Installing python3.9
-            # cd /tmp
-            # wget https://www.python.org/ftp/python/3.9.11/Python-3.9.11.tgz
-            # tar -xf Python-3.9.11.tgz
-            # cd Python-3.9.11
-            # ./configure --enable-optimizations
-            # make -j $(nproc) && make altinstall
-            # cd /
-            # pwd
-
-            # Installing pip
-            # echo "INSTALLING PIP"
-            # curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-            # python3.9 get-pip.py
-            # pwd
-            
             apt-get update -y
             apt-get install cargo -y
-            echo rustc --version
-            pwd
-            ls
-            cd
-            pwd
-            ls
-            cd $GITHUB_WORKSPACE
-            pwd
-            ls
-            
+
             #Building py-spy
-            echo "BUILDING PY-SPY"
             python3.9 -m pip install build
             python3.9 -m build
-            pwd
             WHEEL_PATH=$(find dist/ -name "py_spy-0.3.14-py3-none-linux_s390x*.whl")
             WHEEL_NAME=$(basename $(find dist/ -name "py_spy-0.3.14-py3-none-linux_s390x*.whl"))
             echo $WHEEL_PATH
