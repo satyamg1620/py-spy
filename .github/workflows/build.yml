@@ -118,7 +118,7 @@ jobs:
         path: dist
 
   build-linux-s390x:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     needs: [lint]
     steps:
       - uses: actions/checkout@v3  
@@ -127,7 +127,7 @@ jobs:
         id: build-s390x-py-spy
         with:
           arch: s390x
-          distro: ubuntu22.04
+          distro: ubuntu20.04
 
           # Create an artifacts directory
           setup: |
