@@ -143,7 +143,6 @@ jobs:
             apt-get install -y build-essential 
             apt-get install python3.9 python3-pip python3-dev libpython3.9-dev -y
             python3.9 -m pip install --upgrade pip
-            apt-get update -y
             apt-get install cargo -y
 
             #Building py-spy
