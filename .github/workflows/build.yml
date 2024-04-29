@@ -128,15 +128,6 @@ jobs:
         with:
           arch: s390x
           distro: ubuntu20.04
-
-          # Create an artifacts directory
-          setup: |
-            mkdir -p "${PWD}/artifacts"
-          
-          # Mount the artifacts directory as /artifacts in the container
-          dockerRunArgs: |
-            --volume "${PWD}/artifacts:/artifacts"
-
           run: |
             pwd
             apt-get update -y
@@ -144,16 +135,14 @@ jobs:
             apt-get install python3.9 python3-pip python3-dev libpython3.9-dev -y
             python3.9 -m pip install --upgrade pip
             apt-get install cargo -y
-
-            #Building py-spy
             python3.9 -m pip install build
             python3.9 -m build
-            WHEEL_PATH=$(find dist/ -name "py_spy-0.3.14-py3-none-linux_s390x*.whl")
-            WHEEL_NAME=$(basename $(find dist/ -name "py_spy-0.3.14-py3-none-linux_s390x*.whl"))
-            echo $WHEEL_PATH
-            echo $WHEEL_NAME
-            cp $WHEEL_PATH /artifacts/$WHEEL_NAME
-            ls /artifacts/ 
+
+      - name: Upload wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: dist
 
   build-freebsd:
     runs-on: ubuntu-22.04
