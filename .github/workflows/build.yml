@@ -153,16 +153,16 @@ jobs:
         platform: ['s390x']
     steps:
     - name: Install dependencies and run all tests on ${{ matrix.platform }}
-      if: matrix.platform  != 's390x'
+      # if: matrix.platform  != 's390x'
       uses: appleboy/ssh-action@v0.1.10
       env:
         GH_REPOSITORY: ${{ github.server_url }}/${{ github.repository }}
         # GH_REF: ${{ github.ref }}
         # GRPC_PYTHON_BUILD_SYSTEM_OPENSSL: 1
       with:
-        host: ${{ matrix.platform  == 's390x' && secrets.BUILDER_S390X_SSH_HOST_RHEL}}
-        username: ${{ matrix.platform  == 's390x' && secrets.BUILDER_S390X_SSH_USER }}
-        key: ${{ matrix.platform  == 's390x' && secrets.BUILDER_S390X_SSH_KEY}}
+        host: ${{secrets.BUILDER_S390X_SSH_HOST_RHEL}}
+        username: ${{secrets.BUILDER_S390X_SSH_USER }}
+        key: ${{secrets.BUILDER_S390X_SSH_KEY}}
         script: uname -m
         # envs: GH_REPOSITORY,GH_REF,GRPC_PYTHON_BUILD_SYSTEM_OPENSSL
         # envs: GH_REPOSITORY
