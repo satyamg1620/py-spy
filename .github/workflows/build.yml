@@ -160,9 +160,9 @@ jobs:
         # GH_REF: ${{ github.ref }}
         # GRPC_PYTHON_BUILD_SYSTEM_OPENSSL: 1
       with:
-        host: ${{ matrix.platform  == 's390x'  secrets.BUILDER_S390X_SSH_HOST_RHEL}}
-        username: ${{ matrix.platform  == 's390x'  secrets.BUILDER_S390X_SSH_USER }}
-        key: ${{ matrix.platform  == 's390x' secrets.BUILDER_S390X_SSH_KEY}}
+        host: ${{ matrix.platform  == 's390x' && secrets.BUILDER_S390X_SSH_HOST_RHEL}}
+        username: ${{ matrix.platform  == 's390x' && secrets.BUILDER_S390X_SSH_USER }}
+        key: ${{ matrix.platform  == 's390x' && secrets.BUILDER_S390X_SSH_KEY}}
         script: uname -m
         # envs: GH_REPOSITORY,GH_REF,GRPC_PYTHON_BUILD_SYSTEM_OPENSSL
         # envs: GH_REPOSITORY
