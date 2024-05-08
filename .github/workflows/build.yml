@@ -163,14 +163,14 @@ jobs:
         host: ${{secrets.BUILDER_S390X_SSH_HOST_RHEL}}
         username: ${{secrets.BUILDER_S390X_SSH_USER }}
         key: ${{secrets.BUILDER_S390X_SSH_KEY}}
-        script: uname -m
         # envs: GH_REPOSITORY,GH_REF,GRPC_PYTHON_BUILD_SYSTEM_OPENSSL
-        # envs: GH_REPOSITORY
+        envs: GH_REPOSITORY
         # command_timeout: 100m
-        # script: |
-        #   git clone ${GH_REPOSITORY} 
-        #   cd py-spy
-        #   python3 -m build
+        script: |
+          uname -m
+          git clone ${GH_REPOSITORY} 
+          cd py-spy
+          python3 -m build
         #   ls dist/
 
   build-freebsd:
