@@ -174,7 +174,7 @@ jobs:
           pwd
         #   ls dist/
     - name: Setup SSH Key
-      uses: webfactory/ssqh-agent@v0.5.3
+      uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.S390X_SSH_KEY }}
   
