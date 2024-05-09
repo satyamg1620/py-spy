@@ -160,9 +160,9 @@ jobs:
         # GH_REF: ${{ github.ref }}
         # GRPC_PYTHON_BUILD_SYSTEM_OPENSSL: 1
       with:
-        host: ${{secrets.BUILDER_S390X_SSH_HOST_RHEL}}
-        username: ${{secrets.BUILDER_S390X_SSH_USER }}
-        key: ${{secrets.BUILDER_S390X_SSH_KEY}}
+        host: ${{secrets.S390X_SSH_HOST}}
+        username: ${{secrets.S390X_SSH_USER }}
+        key: ${{secrets.S390X_SSH_KEY}}
         # envs: GH_REPOSITORY,GH_REF,GRPC_PYTHON_BUILD_SYSTEM_OPENSSL
         envs: GH_REPOSITORY
         # command_timeout: 100m
@@ -171,7 +171,19 @@ jobs:
           git clone ${GH_REPOSITORY} 
           cd py-spy
           python3 -m build
+          pwd
         #   ls dist/
+    - name: Setup SSH Key
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.S390X_SSH_KEY }}
+  
+    - name: Copy Files via SCP
+      run: |
+        scp -i $HOME/.ssh/id_rsa -r ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}:$HOME/py-spy/dist $HOME
+        ls $HOME
+        pwd
+      
 
   build-freebsd:
     runs-on: ubuntu-22.04
