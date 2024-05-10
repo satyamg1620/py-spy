@@ -180,7 +180,7 @@ jobs:
   
     - name: Copy Files via SCP
       run: |
-        scp -r ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}:$HOME/py-spy/dist $HOME
+        scp -i ${{ secrets.S390X_SSH_KEY }} -r ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}:$HOME/py-spy/dist $HOME
         ls $HOME
         pwd
       
