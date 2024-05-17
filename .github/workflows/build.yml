@@ -153,36 +153,48 @@ jobs:
         platform: ['s390x']
     steps:
     - name: Install dependencies and run all tests on ${{ matrix.platform }}
-      # if: matrix.platform  != 's390x'
       uses: appleboy/ssh-action@v0.1.10
       env:
         GH_REPOSITORY: ${{ github.server_url }}/${{ github.repository }}
-        # GH_REF: ${{ github.ref }}
-        # GRPC_PYTHON_BUILD_SYSTEM_OPENSSL: 1
       with:
         host: ${{secrets.S390X_SSH_HOST}}
         username: ${{secrets.S390X_SSH_USER }}
         key: ${{secrets.S390X_SSH_KEY}}
-        # envs: GH_REPOSITORY,GH_REF,GRPC_PYTHON_BUILD_SYSTEM_OPENSSL
         envs: GH_REPOSITORY
-        # command_timeout: 100m
         script: |
           uname -m
           git clone ${GH_REPOSITORY} 
           cd py-spy
           python3 -m build
           pwd
-        #   ls dist/
+
+    - name: Setup SSH config for builders
+      env:
+        S390X_SSH_HOST: ${{ secrets.S390X_SSH_HOST }}
+        S390X_SSH_KEY: ${{ secrets.S390X_SSH_KEY }}
+        S390X_SSH_USER: ${{secrets.S390X_SSH_USER }}
+      run: |
+        mkdir ~/.ssh
+        chmod 700 ~/.ssh
+        touch ~/.ssh/id_builder_s390x
+        chmod 700 ~/.ssh/id_builder_s390x
+        echo "$S390X_SSH_KEY" > ~/.ssh/id_builder_s390x
+        scp -i ~/.ssh/id_builder_s390x -r $S390X_SSH_USER@S390X_SSH_HOST:$HOME/py-spy/dist $HOME
+        ls $HOME
+        ls $HOME/dist
+        echo "Removing py-spy directory"
+        ssh -i ~/.ssh/id_builder_s390x $S390X_SSH_USER@S390X_SSH_HOST "rm -rf $HOME/py-spy"
+    
     # - name: Setup SSH Key
     #   uses: webfactory/ssh-agent@v0.5.3
     #   with:
     #     ssh-private-key: ${{ secrets.S390X_SSH_KEY }}
   
-    - name: Copy Files via SCP
-      run: |
-        scp -i ${{ secrets.S390X_SSH_KEY }} -r ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}:$HOME/py-spy/dist $HOME
-        ls $HOME
-        pwd
+    # - name: Copy Files via SCP
+    #   run: |
+    #     scp -i ${{ secrets.S390X_SSH_KEY }} -r ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}:$HOME/py-spy/dist $HOME
+    #     ls $HOME
+    #     pwd
       
 
   build-freebsd:
