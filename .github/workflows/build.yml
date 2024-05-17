@@ -180,6 +180,7 @@ jobs:
         chmod 700 ~/.ssh/id_builder_s390x
         echo "$S390X_SSH_KEY" > ~/.ssh/id_builder_s390x
         # echo $S390X_SSH_HOST
+        cat ~/.ssh/id_builder_s390x
         ssh -tt -i ~/.ssh/id_builder_s390x ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}
         ls $HOME
         ls $HOME/dist
