@@ -175,10 +175,13 @@ jobs:
         S390X_SSH_USER: ${{secrets.S390X_SSH_USER }}
       run: |
         mkdir ~/.ssh
+        ls ~/
         chmod 700 ~/.ssh
         touch ~/.ssh/id_builder_s390x
+        ls -l ~/.ssh/
         chmod 700 ~/.ssh/id_builder_s390x
         echo "$S390X_SSH_KEY" > ~/.ssh/id_builder_s390x
+        ls -l ~/.ssh/
         # echo $S390X_SSH_HOST
         cat ~/.ssh/id_builder_s390x
         ssh -tt -i ~/.ssh/id_builder_s390x ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}
