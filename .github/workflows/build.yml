@@ -184,7 +184,8 @@ jobs:
         ls -l ~/.ssh/
         # echo $S390X_SSH_HOST
         cat ~/.ssh/id_builder_s390x
-        ssh -tt -i ~/.ssh/id_builder_s390x ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}
+        # ssh -tt -i ~/.ssh/id_builder_s390x ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}
+        ssh -tt -i ~/.ssh/id_builder_s390x $S390X_SSH_USER@$S390X_SSH_HOST
         ls $HOME
         ls $HOME/dist
         echo "Removing py-spy directory"
