@@ -179,12 +179,12 @@ jobs:
         touch ~/.ssh/id_builder_s390x
         chmod 700 ~/.ssh/id_builder_s390x
         echo "$S390X_SSH_KEY" > ~/.ssh/id_builder_s390x
-        echo $S390X_SSH_HOST
-        scp -i ~/.ssh/id_builder_s390x -r $S390X_SSH_USER@$S390X_SSH_HOST:$HOME/py-spy/dist $HOME
+        # echo $S390X_SSH_HOST
+        ssh -i ~/.ssh/id_builder_s390x ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}
         ls $HOME
         ls $HOME/dist
         echo "Removing py-spy directory"
-        ssh -i ~/.ssh/id_builder_s390x $S390X_SSH_USER@$S390X_SSH_HOST "rm -rf $HOME/py-spy"
+        
     
     # - name: Setup SSH Key
     #   uses: webfactory/ssh-agent@v0.5.3
