@@ -179,6 +179,7 @@ jobs:
         touch ~/.ssh/id_builder_s390x
         chmod 700 ~/.ssh/id_builder_s390x
         echo "$S390X_SSH_KEY" > ~/.ssh/id_builder_s390x
+        echo $S390X_SSH_HOST
         scp -i ~/.ssh/id_builder_s390x -r $S390X_SSH_USER@S390X_SSH_HOST:$HOME/py-spy/dist $HOME
         ls $HOME
         ls $HOME/dist
