@@ -184,6 +184,13 @@ jobs:
         ls -l ~/.ssh/
         # echo $S390X_SSH_HOST
         cat ~/.ssh/id_builder_s390x
+        
+        if [ "$S390X_SSH_KEY" == "$(cat ~/.ssh/id_builder_s390x)" ] ;then
+            echo "The key matched"
+        else
+            echo "They don't match"
+        fi
+
         ssh -tt -i ~/.ssh/id_builder_s390x $S390X_SSH_USER@$S390X_SSH_HOST
         ls $HOME
         ls $HOME/dist
