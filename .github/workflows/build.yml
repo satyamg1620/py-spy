@@ -190,7 +190,7 @@ jobs:
         else
             echo "They don't match"
         fi
-        scp -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}:/root/py-spy/dist $HOME
+        scp -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}:/root/py-spy/dist .
         ls $HOME
         ls $HOME/dist
         echo "Removing py-spy directory"
