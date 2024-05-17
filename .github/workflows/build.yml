@@ -190,7 +190,7 @@ jobs:
         else
             echo "They don't match"
         fi
-        scp -i ~/.ssh/id_builder_s390x  -r root@141.125.111.100:/root/py-spy/dist /root/
+        scp -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -r root@141.125.111.100:/root/py-spy/dist /root/
         ls $HOME
         ls $HOME/dist
         ls /root/
