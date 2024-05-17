@@ -191,7 +191,7 @@ jobs:
             echo "They don't match"
         fi
 
-        ssh -tt -i ~/.ssh/id_builder_s390x $S390X_SSH_USER@$S390X_SSH_HOST
+        ssh -tt -i ~/.ssh/id_builder_s390x root@141.125.111.100
         ls $HOME
         ls $HOME/dist
         echo "Removing py-spy directory"
