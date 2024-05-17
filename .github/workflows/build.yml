@@ -190,14 +190,15 @@ jobs:
         else
             echo "They don't match"
         fi
-
-        ssh -tt -i ~/.ssh/id_builder_s390x -o "StrictHostKeyChecking no" $S390X_SSH_USER@$S390X_SSH_HOST
+        scp -i ${{ secrets.S390X_SSH_KEY }} -o "StrictHostKeyChecking no" -r ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}:/root/py-spy/dist $HOME
         ls $HOME
         ls $HOME/dist
         echo "Removing py-spy directory"
         
     
     # - name: Setup SSH Key
+    # ssh -tt -i ~/.ssh/id_builder_s390x -o "StrictHostKeyChecking no" $S390X_SSH_USER@$S390X_SSH_HOST
+
     #   uses: webfactory/ssh-agent@v0.5.3
     #   with:
     #     ssh-private-key: ${{ secrets.S390X_SSH_KEY }}
