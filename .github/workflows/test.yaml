@@ -1,14 +1,14 @@
-name: Build
+name: SSH
 
 on:
   workflow_dispatch:
   push:
     branches: [ master ]
 jobs:
- build-linux-s390x:
+ test-ssh:
     runs-on: ubuntu-20.04
     steps:
-      - name: Setup SSH config for builders
+      - name: SCP
         env:
           S390X_SSH_HOST: ${{ secrets.S390X_SSH_HOST }}
           S390X_SSH_KEY: ${{ secrets.S390X_SSH_KEY }}
@@ -22,5 +22,6 @@ jobs:
           chmod 700 ~/.ssh/id_builder_s390x
           echo "$S390X_SSH_KEY" > ~/.ssh/id_builder_s390x
           ls -l ~/.ssh/
+          ssh -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $S390X_SSH_USER@$S390X_SSH_HOST "ls -lart"
           scp -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r $S390X_SSH_USER@$S390X_SSH_HOST:/root/py-spy . 
           ls -lrt
