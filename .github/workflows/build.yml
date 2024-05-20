@@ -194,11 +194,9 @@ jobs:
         echo $S390X_SSH_HOST
         echo ${{secrets.S390X_SSH_USER }}
         echo ${{ secrets.S390X_SSH_HOST }}
-        scp -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r "$S390X_SSH_USER@$S390X_SSH_HOST:~/py-spy/dist" "." 
-        ls .
-        ls ./dist/
-        echo "Removing py-spy directory"
-        ssh -tt -i ~/.ssh/id_builder_s390x -o "StrictHostKeyChecking no" $S390X_SSH_USER@$S390X_SSH_HOST "rm -rf ~/py-spy"
+        scp -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r $S390X_SSH_USER@$S390X_SSH_HOST:~/py-spy . 
+        ls -lrt
+        # ssh -tt -i ~/.ssh/id_builder_s390x -o "StrictHostKeyChecking no" $S390X_SSH_USER@$S390X_SSH_HOST "rm -rf ~/py-spy"
         
     
     # - name: Setup SSH Key
