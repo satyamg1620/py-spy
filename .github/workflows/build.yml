@@ -22,7 +22,7 @@ jobs:
 
   build-linux-armv7:
     runs-on: [self-hosted, linux, arm]
-    needs: [lint]
+    # needs: [lint]
     steps:
     - name: Setup python
       run: |
@@ -36,7 +36,7 @@ jobs:
 
   build:
     runs-on: ${{ matrix.os }}
-    needs: [lint]
+    # needs: [lint]
     strategy:
       fail-fast: false
       matrix:
@@ -91,7 +91,7 @@ jobs:
 
   build-linux-cross:
     runs-on: ubuntu-latest
-    needs: [lint]
+    # needs: [lint]
     strategy:
       fail-fast: false
       matrix:
@@ -162,11 +162,9 @@ jobs:
         key: ${{secrets.S390X_SSH_KEY}}
         envs: GH_REPOSITORY
         script: |
-          uname -m
           git clone ${GH_REPOSITORY} 
           cd py-spy
           python3 -m build
-          pwd
 
     - name: Setup SSH config for builders
       env:
@@ -175,43 +173,25 @@ jobs:
         S390X_SSH_USER: ${{secrets.S390X_SSH_USER }}
       run: |
         mkdir ~/.ssh
-        ls ~/
         chmod 700 ~/.ssh
         touch ~/.ssh/id_builder_s390x
-        ls -l ~/.ssh/
         chmod 700 ~/.ssh/id_builder_s390x
         echo "$S390X_SSH_KEY" > ~/.ssh/id_builder_s390x
-        ls -l ~/.ssh/
-        # echo $S390X_SSH_HOST
-        cat ~/.ssh/id_builder_s390x
-        
-        if [ "$S390X_SSH_KEY" == "$(cat ~/.ssh/id_builder_s390x)" ] ;then
-            echo "The key matched"
-        else
-            echo "They don't match"
-        fi
         scp -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r $S390X_SSH_USER@$S390X_SSH_HOST:~/py-spy . 
         ls -lrt 
         ssh -tt -i ~/.ssh/id_builder_s390x -o "StrictHostKeyChecking no" $S390X_SSH_USER@$S390X_SSH_HOST "rm -rf ~/py-spy"
-        
-    
-    # - name: Setup SSH Key
-    # ssh -tt -i ~/.ssh/id_builder_s390x -o "StrictHostKeyChecking no" $S390X_SSH_USER@$S390X_SSH_HOST
 
-    #   uses: webfactory/ssh-agent@v0.5.3
-    #   with:
-    #     ssh-private-key: ${{ secrets.S390X_SSH_KEY }}
-  
-    # - name: Copy Files via SCP
-    #   run: |
-    #     scp -i ${{ secrets.S390X_SSH_KEY }} -r ${{secrets.S390X_SSH_USER }}@${{secrets.S390X_SSH_HOST}}:$HOME/py-spy/dist $HOME
-    #     ls $HOME
-    #     pwd
-      
+    - name: Upload wheels
+      uses: actions/upload-artifact@v3
+      with:
+        name: wheels
+        path: py-spy/dist
+
+        
 
   build-freebsd:
     runs-on: ubuntu-22.04
-    needs: [lint]
+    # needs: [lint]
     timeout-minutes: 30
     strategy:
       matrix:
