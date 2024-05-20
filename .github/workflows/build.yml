@@ -341,7 +341,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: "startsWith(github.ref, 'refs/tags/')"
+    # if: "startsWith(github.ref, 'refs/tags/')"
     # needs: [test-wheels, test-wheel-linux-armv7]
     needs: [build-linux-cross,build-freebsd]
     steps:
