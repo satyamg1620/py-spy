@@ -22,7 +22,7 @@ jobs:
 
   build-linux-armv7:
     runs-on: [self-hosted, linux, arm]
-    needs: [lint]
+    # needs: [lint]
     steps:
     - name: Setup python
       run: |
@@ -36,7 +36,7 @@ jobs:
 
   build:
     runs-on: ${{ matrix.os }}
-    needs: [lint]
+    # needs: [lint]
     strategy:
       fail-fast: false
       matrix:
@@ -91,7 +91,7 @@ jobs:
 
   build-linux-cross:
     runs-on: ubuntu-latest
-    needs: [lint]
+    # needs: [lint]
     strategy:
       fail-fast: false
       matrix:
@@ -119,7 +119,7 @@ jobs:
 
   build-linux-s390x:
     runs-on: ubuntu-latest
-    needs: [lint]
+    # needs: [lint]
     strategy:
       fail-fast: false
       matrix:
@@ -148,7 +148,7 @@ jobs:
         mkdir ~/.ssh
         chmod 700 ~/.ssh
         touch ~/.ssh/id_builder_s390x
-        chmod 700 ~/.ssh/id_builder_s390x
+        chmod 600 ~/.ssh/id_builder_s390x
         echo "$S390X_SSH_KEY" > ~/.ssh/id_builder_s390x
         scp -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r $S390X_SSH_USER@$S390X_SSH_HOST:~/py-spy . 
         ssh -tt -i ~/.ssh/id_builder_s390x -o "StrictHostKeyChecking no" $S390X_SSH_USER@$S390X_SSH_HOST "rm -rf ~/py-spy"
@@ -161,7 +161,7 @@ jobs:
 
   build-freebsd:
     runs-on: ubuntu-22.04
-    needs: [lint]
+    # needs: [lint]
     timeout-minutes: 30
     strategy:
       matrix:
