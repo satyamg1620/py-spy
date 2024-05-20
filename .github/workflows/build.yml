@@ -159,8 +159,6 @@ jobs:
         name: wheels
         path: py-spy/dist
 
-        
-
   build-freebsd:
     runs-on: ubuntu-22.04
     needs: [lint]
