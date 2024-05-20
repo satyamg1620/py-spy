@@ -22,6 +22,6 @@ jobs:
           chmod 700 ~/.ssh/id_builder_s390x
           echo "$S390X_SSH_KEY" > ~/.ssh/id_builder_s390x
           ls -l ~/.ssh/
-          ssh -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $S390X_SSH_USER@$S390X_SSH_HOST "ls -lart"
+          # ssh -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $S390X_SSH_USER@$S390X_SSH_HOST "ls -lart"
           scp -i ~/.ssh/id_builder_s390x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r $S390X_SSH_USER@$S390X_SSH_HOST:/root/py-spy . 
           ls -lrt
